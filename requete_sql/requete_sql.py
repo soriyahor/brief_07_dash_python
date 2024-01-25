@@ -4,12 +4,13 @@ import sqlite3
 from enum import Enum
 import time
 
+REF_BDD = "Chinook.db"
+
 app = FastAPI()
-bdd = "Chinook.db"
 
 try:
     start = time.time()
-    con = sqlite3.connect(bdd)
+    con = sqlite3.connect(REF_BDD)
     end = time.time()
     print(end - start)
 except sqlite3.Error as e:
