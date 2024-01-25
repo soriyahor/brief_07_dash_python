@@ -1,6 +1,6 @@
 import requests
 import time
-from config_sql import *
+from config_dashboard.config_sql import *
 
 
 #definir une méthode get
