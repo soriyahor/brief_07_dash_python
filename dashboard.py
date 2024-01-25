@@ -6,7 +6,7 @@ import plotly.express as px
 import pandas as pd
 import dash_bootstrap_components as dbc
 
-from config_dashboard.connecteurs_sql_pf import dynamism, departement
+from config_dashboard.connecteurs_sql import dynamism, departement
 
 app = Dash(__name__)
 
