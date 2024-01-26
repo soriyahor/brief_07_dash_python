@@ -1,6 +1,7 @@
 import pickle
 from fastapi import FastAPI, HTTPException
 import uvicorn
+import sklearn
 
 app = FastAPI()
 
@@ -55,4 +56,4 @@ def prix_m2_two(n_pieces: int, surface_habitable: float, code_postal: int, longi
     
     return {'predicted_prix_m2': prediction}
 
-uvicorn.run(app, host="127.0.0.1", port=7000)
+uvicorn.run(app, host="127.0.0.1", port=8000)

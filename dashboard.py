@@ -7,6 +7,8 @@ import pandas as pd
 import dash_bootstrap_components as dbc
 
 from config_dashboard.connecteurs_sql import dynamism, departement
+from predict.predict import prix_m2, prix_m2_two
+from config_dashboard.gps import create_long_lat
 
 app = Dash(__name__)
 
@@ -131,6 +133,5 @@ agent_layout = html.Div([
     html.H1(children='A construire', style={'textAlign':'center'}),
 ])
 
-
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+app.run(host="127.0.0.1", port=8050)
