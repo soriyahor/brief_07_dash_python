@@ -5,6 +5,7 @@ from enum import Enum
 import time
 
 REF_BDD = "Chinook.db"
+PORT = 7000
 
 app = FastAPI()
 
@@ -165,4 +166,4 @@ async def top_prix_par_batiment(type_batiment : TypeBatiment, ascendant: bool, l
     answer=apply_request(req)
     return answer
 
-uvicorn.run(app, port=7000)
+uvicorn.run(app, port=PORT)
