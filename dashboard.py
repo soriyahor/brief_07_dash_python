@@ -5,6 +5,7 @@ from dash import Dash, html, dcc, callback, Output, Input, dash_table, exception
 import plotly.express as px
 import pandas as pd
 import dash_bootstrap_components as dbc
+
 from config_dashboard.gps import create_long_lat
 from config_dashboard.connecteurs_sql import dynamism, departement
 from config_dashboard.estimation_prix_m2 import estimation_prix_m2
