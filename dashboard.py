@@ -1,12 +1,13 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
 
-from dash import Dash, html, dcc, callback, Output, Input, dash_table
+from dash import Dash, html, dcc, callback, Output, Input, dash_table, exceptions
 import plotly.express as px
 import pandas as pd
 import dash_bootstrap_components as dbc
-
+from config_dashboard.gps import create_long_lat
 from config_dashboard.connecteurs_sql import dynamism, departement
+from config_dashboard.estimation_prix_m2 import estimation_prix_m2
 
 app = Dash(__name__)
 
@@ -126,11 +127,71 @@ def update_graph2(selected_year):
     fig2_updated = px.bar(df2_updated, x='departement', y='nb')
     return fig2_updated, df2_updated.to_dict('records')
 
+# agent
 
-agent_layout = html.Div([
-    html.H1(children='A construire', style={'textAlign':'center'}),
+data = estimation_prix_m2( 0, 0)
+df = pd.DataFrame(data, columns=['longitude', 'latitude', 'prix_m2'])
+table = dash_table.DataTable(id= 'data-table', data=df.to_dict('records'), columns=[{"name": i, "id": i} for i in df.columns])
+map_figure = px.scatter_geo()
+
+# layout agent
+agent_layout = html.Div(children=[
+    html.H1(children='Estimation du prix au m² de la ville de Paris', style={'textAlign':'center'}),
+    html.Div(children='''
+        Retourne le prix par m2
+    '''),
+    html.Br(),
+    html.Label('Adresse:'),
+    dcc.Input(id='adresse-input', type='text', value='11 rue d haute ville, 75010 PARIS' , style={'width': '20%'}) ,
+    html.Button('Valider', id='validation-button'),
+    html.Br(),
+    html.Br(),
+    dcc.Graph(id='map', figure=map_figure),
+
+    table
 ])
 
+# Mise à jour des données et du graphique en fonction de l'année sélectionnée
+@app.callback(
+    Output('data-table', 'data'),
+    Output('map', 'figure'),
+    Input('validation-button', 'n_clicks'),
+    Input('adresse-input', 'value'),
+)
+def update_data(n_clicks,adresse):
+    # print(f"adresse {adresse}")
+    # print(f"n_clicks {n_clicks}")
+
+    if n_clicks is None:
+        raise exceptions.PreventUpdate
+    else:
+        longitude = create_long_lat({'q':{adresse}})[0]
+        latitude = create_long_lat({'q':{adresse}})[1]
+        # print(f"longitude: {longitude}")
+        # print(f"latitude: {latitude}")
+        # longitude, latitude = create_long_lat({'q': {adresse}})
+        # Mettez à jour les données en fonction de l'année sélectionnée
+        data = estimation_prix_m2(longitude, latitude)
+        # print(f"data: {data}")
+        data2 = [[longitude, latitude, round(data.get('predicted_prix_m2'), 2)]]
+        # print(f"data2 {data2}")
+        df = pd.DataFrame(data2, columns=['longitude', 'latitude', 'prix_m2'])
+
+        # Mettez à jour les données du tableau
+        table_data = df.to_dict('records')
+
+        map_figure = px.scatter_geo(df, lon='longitude', lat='latitude', text='prix_m2',
+                                    projection='natural earth')
+        map_figure.update_geos(
+            center=dict(lon=2.0, lat=46.5),
+            projection_scale=18,
+            showcountries=True,
+            countrycolor="darkgrey",
+            showcoastlines=True,
+            coastlinecolor="black"
+        )
+
+        return table_data, map_figure
 
 if __name__ == '__main__':
-    app.run(app, port=8050)
+    app.run(debug=True) 
