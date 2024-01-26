@@ -97,6 +97,7 @@ ceo_layout = dbc.Container(
     ],
 )
 
+
 @app.callback(
     Output('graph-content1', 'figure'),
     Output('data-table1', 'data'),
