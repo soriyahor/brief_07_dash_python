@@ -27,6 +27,7 @@ app.layout = html.Div([
               Input('ceo-vs-agent-dropdown', 'value'))
 def update_ceo_agent_div(value: str):
     if value == 'CEO':
+        
         return ceo_layout
     elif value == 'AGENT':
         return agent_layout
