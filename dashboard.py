@@ -10,7 +10,7 @@ from config_dashboard.gps import create_long_lat
 from config_dashboard.connecteurs_sql import dynamism, departement
 from config_dashboard.estimation_prix_m2 import estimation_prix_m2
 
-app = Dash(__name__)
+app = Dash(__name__, suppress_callback_exceptions=True)
 
 #Layout principal
 
