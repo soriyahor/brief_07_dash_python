@@ -9,7 +9,7 @@ Coding in python Dash an application for the real estate Director and agency res
 2. [How to Run](#how-to-run)
 3. [Different views](#different-views)
    - [1. CEO](#1-ceo)
-   - [2. Real Estate Agent](#2-agent)
+   - [2. Real Estate Agent](#2-real-estate-agent)
 4. [Notes](#notes)
 
 ***
@@ -31,15 +31,6 @@ https://www.kaggle.com/datasets/benoitfavier/immobilier-france/data extracted vi
 1. Run the file named : requete_sql.py in 'requete_sql' with 'python3 requete_sql.py' based on chinook.db datas
 2. Run the file named : predict.py in 'requete_sqlpredict' with 'python3 predict.py' based on 'optimal_rfr_model_paris.pkl' and 'optimal_rfr_model_idf.pkl' datas
 3. Run the file named : dashboard.py with 'python3 dashboard.py' based on the 2 last queries
- 
-***
-
-Main entries
-- function to validate year entry : validate_year(year: str) => will return an error detail in case the year is not a 4 digit number
-- function to validate an integer entry : validate_number(n: str) => will return an error detail in case the text indicates other than an integer
-- function to validate an building type entry : validate_building_type(building_type: str) => will return an error detail in case the text is not 'appartement' or 'maison'
-- under construction : function to validate the asked data exists in database => validate_existing_data => will return an error detail in case the text is not in the table(s)
-
 
 ***
 
